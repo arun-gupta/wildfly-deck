@@ -1,4 +1,3 @@
-wildfly-deck
-============
+WildFly 8 Deck
+==============
 
-WildFly Deck
