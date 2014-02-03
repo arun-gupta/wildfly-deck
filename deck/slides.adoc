@@ -9,6 +9,7 @@ include::attributes.adoc[]
 :idprefix:
 :idseparator: -
 :icons: font
+:dzslides-transition: fade
 :source-highlighter: coderay
 
 [.topic.source]
@@ -526,10 +527,9 @@ image:admin-console.png[]
 * The Admin Console is a responsive web-based administration console and provides a GUI for all administration tasks.
 ====
 
-[.topic.source]
+[.topic.ending]
 == Summary
 
-====
 WildFly is: +
 * Java EE 7 compliant +
 * lightweight +
@@ -537,7 +537,6 @@ WildFly is: +
 * highly scalable +
 * open source +
 * application server
-====
 
 _Now available!_
 
