@@ -294,8 +294,7 @@ kbd kbd:first-child { margin-left: 0; }
 kbd kbd:last-child { margin-right: 0; }
 
 section ul {
-  list-style: none;
-  font-size: 3em;
+  font-size: 2em;
   text-transform: uppercase;
   font-weight: 700;
   color: #1A6074;
@@ -460,14 +459,14 @@ section p del span {
 
 blockquote {
   padding: 0 0 0 15px;
-  margin: -10px 2em 0 2em;
+  margin: -30px 2em 0 2em;
   border-left: 5px solid #BA3925;
 }
 
 blockquote:before {
   color: #BA3925;
   content: '\201C';
-  font-size: 5em;
+  font-size: 4em;
   float: left;
   margin-left: -.8em;
 }
