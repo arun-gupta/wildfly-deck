@@ -334,6 +334,12 @@ context.createProducer().send(syncQueue, "..."); <4>
 ====
 
 [.topic.source]
+== WildFly: Java EE 7 IDEs
+
+image:netbeans-wildfly.png[] image:eclipse-wildfly.png[] image:intellij-wildfly.png[]
+image:netbeans-logo.png[] image:jbosstools-logo.png[] image:intellij-logo.png[]
+
+[.topic.source]
 == WildFly: New web server (_Undertow_)
 
 [.incremental]
