@@ -455,6 +455,11 @@ Read through the code ;-)
 ====
 
 [.topic.source]
+== WildFly: In the cloud
+
+image:openshift-logo.png[] image:cloudbees-logo.png[]
+
+[.topic.source]
 == Carry forward from AS 7.x
 
 ====
