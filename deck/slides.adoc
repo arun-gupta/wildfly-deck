@@ -65,7 +65,7 @@ Highhlight:
 == !
 
 [.middle]
-image::wildfly-intro.png[]
+image::wildfly.png[]
 
 [NOTE]
 [role="speaker"]
@@ -117,6 +117,7 @@ Understand the _new features_ of _WildFly 8_ and revise some of the features _ca
 * Reduced port usage
 * Role based administration control & auditing
 * Automated patching
+* Minimalistic "core" distribution
 
 [NOTE]
 [role="speaker"]
@@ -272,7 +273,7 @@ executor.submit(new MyTask()); <3>
 .+RunClient.java+
 ----
 Client client = ClientBuilder.newClient(); <1>
-WebTarget target = client.target(...); <2>
+WebTarget target = client.target("..."); <2>
 target.register(Person.class);
 Person p = target
              .path("{id}") <3>
@@ -348,6 +349,7 @@ image:netbeans-logo.png[] image:jbosstools-logo.png[] image:intellij-logo.png[]
 * Composition/handler based architecture
 * Lightweight & fully embeddable
 * Supports Servlet 3.1 & HTTP upgrade
+* `mod_cluster` supported
 
 [NOTE]
 [role="speaker"]
@@ -391,7 +393,8 @@ Read through the code ;-)
 == WildFly: Port reduction
 
 [.incremental]
-* HTTP Upgrade to reduce the number of ports in the default installation to just two
+* Uses HTTP Upgrade
+* Number of ports in default installation is two
 ** _8080_ for applications with JNDI and EJB multiplexed
 ** _9990_ for management, for both HTTP/JSON & Native API
 * Only overhead is the initial HTTP Upgrade request/response
@@ -399,7 +402,8 @@ Read through the code ;-)
 [NOTE]
 [role="speaker"]
 ====
-* Basically to support high-density environments (like OpenShift) where physical resources are shared and scarce - another example of why JBoss is designed for the cloud / PaaS. The better examples are small memory footprint and fast startup (delivered in AS 7).
+* By utilizing HTTP upgrade, WildFly 8 has moved nearly all of its protocols to be multiplexed over two HTTP ports: a management port, and an application port. This is a big benefit to cloud providers (such as OpenShift) who run hundreds to thousands of instances on a single server. This is another example of why JBoss is designed for the cloud / PaaS. The better examples are small memory footprint and fast startup (delivered in AS 7).
+* Note that since CR1 we have finally dropped the native management port 9999, which instead uses the HTTP management port (9990). Our full profile configuration also dropped the native JMS ports 5445 and 5455, which instead are multiplexed over port 8080. However, all of these original ports can still be enabled if desired.
 * At some point, we may offer a single port mode, to allow all server traffic to go through a single port.
 ====
 
@@ -451,7 +455,49 @@ Read through the code ;-)
 [NOTE]
 [role="speaker"]
 ====
+* The infrastructure to support the application of patches to an existing install has been implemented. This capability allows for a remote client to install and rollback new static modules and binary files using the WildFly management protocol.
 * This feature will be used in future for EAP.
+====
+
+[.topic.source]
+== WildFly: Minimalistic "core" distribution
+
+[.incremental]
+* 15 MB download
+* Rich management layer
+* Fully concurrent service container with advanced capabilities
+* Modular class loading which enables multi-tenancy of applications
+* Pluggable hot deployment layer
+* Built-in lightweight web server
+
+[NOTE]
+[role="speaker"]
+====
+* A new download option is now available in WildFly 8, called the "core" distribution. This distribution is ideal for framework authors that want to build their own application runtime using the powerful WildFly 8 architecture.
+* Rich management layer supporting configuration persistence, hot runtime updates, and unified set of tools and protocols.
+* Built-in lightweight web server (supports the HTTP/JSON management protocol)
+====
+
+[.topic.source]
+== WildFly: Miscellaneous
+
+[.incremental]
+* Improved JDK8 compatibility
+* RESTEasy 3
+* Hibernate search
+* Per-deployment security permissions
+* New public clustering API
+* Pruned: CMP, JAX-RPC, JSR 88
+
+[NOTE]
+[role="speaker"]
+====
+* This release has improved compatibility with JDK8, and we now encourage everyone interested in Java 8 to run WildFly 8 on it as well. Expect future releases of WildFly to include APIs that take advantage of the new language features.
+* WildFly 8 includes RESTEasy 3 which supports the standard Java EE REST APIs (JAX-RS 2.0) and also provides a number of useful extensions including JSON Web Encryption, Jackson, Yaml, JSON-P, and Jettison.
+* Hibernate Search is now offered out of the box in WildFly. Hibernate Search indexes objects for fast full-text searching. Multiple data sources are supported including Infinispan and standard database entities.
+* WildFly now provides a specialized Java security manager that allows you to define per-deployment security permissions, and also greatly improves upon the performance of using the standard Java security manager. In addition to the standard Java EE permissions.xml, a more flexible jboss-permissions.xml descriptor is also supported.
+* Allows applications to view cluster topology and listen for topology changes. Allows applications to broadcast/submit commands to nodes in the cluster for remote execution. Requisite modules are automatically made available to deployments, if supported by the server profile.
+* CMP - JPA offers much more performant and flexible API. JAX-RPC - JAX-WS offers a much more accurate and complete solution. JSR-88 - Very little adoptionr. Most preferred the more complete deployment APIs provided by venders. We decided to completely remove support for these technologies due to the high maintenance cost, low community interest, and much better alternative solutions. If you are not able to port at this time, we recommend looking at JBoss EAP6, which provides long term maintenance and support of these technologies.
 ====
 
 [.topic.source]
