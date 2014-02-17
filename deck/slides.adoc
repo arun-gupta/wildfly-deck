@@ -395,8 +395,8 @@ Read through the code ;-)
 [.incremental]
 * Uses HTTP Upgrade
 * Number of ports in default installation is two
-** _8080_ for applications with JNDI and EJB multiplexed
-** _9990_ for management, for both HTTP/JSON & Native API
+** _8080_ for applications
+** _9990_ for management
 * Only overhead is the initial HTTP Upgrade request/response
 
 [NOTE]
@@ -563,8 +563,9 @@ image::managed-domain.png[]
 [.incremental]
 * `jboss-cli.sh`|`bat`
 * Connects to standalone instance or Domain controller
-* *nix-style shell syntax, resources as files
-* Contextual command and resource-tab completion
+* Interactive mode: *nix-style shell
+** Contextual command and resource-tab completion
+* Non-interactive mode: commands in files
 * High-level compound operations
 * Persistent changes
 
@@ -607,6 +608,11 @@ image:admin-console.png[]
 
 _Now available!_
 ====
+
+[.topic.source]
+== Open source polyglot conference
+
+image::devnation_summitpromo.png[]
 
 [.topic.source]
 == References
