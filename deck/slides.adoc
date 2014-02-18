@@ -474,6 +474,8 @@ Read through the code ;-)
 [role="speaker"]
 ====
 * A new download option is now available in WildFly 8, called the "core" distribution. This distribution is ideal for framework authors that want to build their own application runtime using the powerful WildFly 8 architecture.
+* This allows to add new subsystems, add new deployment types, your application needs to take advantage of the powerful CLI for managementaspect, etc. This is nothing to do with an existing standard like Java EE or anything else, its purely related to how WildFly internals work.
+* Management, classloading (JBoss Modules), logging etc is bare bones, everything else like EJB, JPA, Clustering are extensions to that. Core has a deployment manager but it does not know what to do with the uploaded archive, such as WAR, unless an extension is uploaded.
 * Rich management layer supporting configuration persistence, hot runtime updates, and unified set of tools and protocols.
 * Built-in lightweight web server (supports the HTTP/JSON management protocol)
 ====
