@@ -553,10 +553,12 @@ image::managed-domain.png[]
 [NOTE]
 [role="speaker"]
 ====
-* Host controller (HC) is started with domain.sh|bat script and is only concerned with server management. Only starts/stops individual server processes that run on its host, interacts with DC to help manage them.
-* Domain Controller (DC) is a special HC that is configured to be the central management control point for the collection of servers in the ‘domain’.
+* Domains can span multiple physical (or virtual) machines, with all WildFly 8 instances on a given host under the control of a special Host Controller process. One Host Controller instance is configured to act as the central Domain Controller. The Host Controller on each host interacts with the Domain Controller to control the lifecycle of the application server instances running on its host and to assist the Domain Controller in managing them.
+* Host controller (HC) is started with domain.sh|bat script and is only concerned with server management on that host. Domain Controller (DC) is a special HC that is configured to be the central management control point for the collection of servers in the ‘domain’.
+* All of the WildFly 8 instances in the domain share a common management policy, with the Domain Controller acting to ensure that each server is configured according to that policy.
 * A server group is set of server instances that will be managed and configured as one. In a managed domain each application server instance is a member of a server group. DC and HC ensures that all servers in a server group have a consistent configuration.
 * Server is an actual server instance. It runs in a separate JVM process from HC and is started by HC. User cannot launch this process from command line.
+* It's important to understand that the choice between a managed domain and standalone servers is all about how your servers are managed, not what capabilities they have to service end user requests. This distinction is particularly important when it comes to high availability clusters. It's important to understand that HA functionality is orthogonal to running standalone servers or a managed domain. That is, a group of standalone servers can be configured to form an HA cluster.
 ====
 
 [.topic.source]
