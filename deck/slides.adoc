@@ -345,7 +345,7 @@ image:netbeans-logo.png[] image:jbosstools-logo.png[] image:intellij-logo.png[]
 
 [.incremental]
 * Flexible and high-performance
-* Blocking / non-blocking NIO based APIs
+* Blocking / non-blocking based on NIO
 * Composition/handler based architecture
 * Lightweight & fully embeddable
 * Supports Servlet 3.1 & HTTP upgrade
@@ -388,6 +388,13 @@ Undertow.builder() <1>
 ====
 Read through the code ;-)
 ====
+
+[.topic.source]
+== Undertow benchmarks
+
+image::undertow-benchmarks.png[1000, 567]
+
+NOTE: http://www.techempower.com/blog/2014/03/04/one-million-http-rps-without-load-balancing-is-easy/
 
 [.topic.source]
 == WildFly: Port reduction
