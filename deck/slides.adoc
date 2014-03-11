@@ -538,10 +538,8 @@ image:openshift-logo.png[] image:cloudbees-logo.png[]
 [.incremental]
 * *Standalone*: single independent instance
 * *Managed domain*: manage multiple WildFly instances from a single control point
-** Host controller
-** Domain controller
-** Server group
-** Server
+** High Availability through fail-over: removes single point of failure
+** High Availability through load-balancing: timely response to client, even with high-volume requests
 
 [NOTE]
 [role="speaker"]
@@ -551,6 +549,14 @@ image:openshift-logo.png[] image:cloudbees-logo.png[]
 ** If more than one standalone instance is launched and multi-server management is desired, it is the user's responsibility to coordinate management across the servers. For example, to deploy an application across all of the standalone servers, the user would need to individually deploy the application on each server.
 * A managed domain that allows you to run and manage a multi-server topology and manage multiple WildFly instances from a single control point. It can be started using `bin/domain.sh|bat` scripts.
 ** This mode is recommended for production.
+* Deploying critical applications on a single node suffers from two potential problems:
+** loss of application availability when the node hosting the application crashes (single point of failure)
+** loss of application availability in the form of extreme delays in response time during high volumes of requests (overwhelmed server)
+WildFly supports two features which ensure high availability of critical Java EE applications:
+** fail-over: allows a client interacting with a Java EE application to have uninterrupted access to that application, even in the presence of node failures
+** load balancing: allows a client to have timely responses from the application, even in the presence of high-volumes of requests
+* Fail-over allows a client interacting with a Java EE application to have uninterrupted access to that application, even in the presence of node failures. If the application makes use of WildFly's fail-over services, a client interacting with an instance of that application will not be interrupted even when the node on which that instance executes crashes. Behind the scenes, WildFly makes sure that all of the user data that the application make use of (HTTP session data, EJB SFSB sessions, EJB entities and SSO credentials) are available at other nodes in the cluster, so that when a failure occurs and the client is redirected to that new node for continuation of processing (i.e. the client "fails over" to the new node), the users data is available and processing can continue.
+* Load balancing allow a client to have timely responses from the application, even in the presence of high-volumes of requests. Using a load balancer as a front-end, each incoming HTTP request can be directed to one node in the cluster for processing. in this way, the cluster acts as a pool of processing nodes and the load is "balanced" over the pool of nodes, achieving scalability and, as a consequence, availability.
 ====
 
 [.topic.source]
