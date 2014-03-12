@@ -612,6 +612,25 @@ image:admin-console.png[]
 * The Admin Console is a responsive web-based administration console and provides a GUI for all administration tasks.
 ====
 
+[.topic.source]
+== Migrate to WildFly
+
+image::glassfish-dish.png[700, 364]
+
+NOTE: http://wildfly.org/news/2014/02/06/GlassFish-to-WildFly-migration/
+
+NOTE: http://zeroturnaround.com/rebellabs/abandon-fish-migrating-from-glassfish-to-jboss-or-tomee/
+
+== !
+"the most logical decision when migrating from GlassFish is opting for an *equivalent open source alternative*"
+-- zeroturnaround.com
+
+[.topic.source]
+== JBoss/WildFly or TomEE chosen because ...
+* Vibrant developer community
+* Amount of documentation on the web
+* Sponsorship and support by market leaders
+
 [.topic.recap]
 == WildFly is:
 
