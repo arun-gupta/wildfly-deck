@@ -142,7 +142,7 @@ image::javaee7.png[]
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 WebSocket
+== WildFly: Java EE 7 WebSocket (JSR 356)
 
 [source,java]
 .+ChatServer.java+
@@ -151,9 +151,9 @@ image::javaee7.png[]
 public class ChatEndpoint {
     @OnMessage <2>
     public void message(String message,
-                        Session client) <3>
+                        Session session) <3>
                    throws IOException, EncodeException {
-        for (Session peer : client.getOpenSessions()) {
+        for (Session peer : session.getOpenSessions()) {
             peer.getBasicRemote().sendText(message);
         }
     }
@@ -174,7 +174,7 @@ public class ChatEndpoint {
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 Batch
+== WildFly: Java EE 7 Batch (JSR 352)
 
 [source,xml]
 .+job.xml+
@@ -206,7 +206,7 @@ public class ChatEndpoint {
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 JSON
+== WildFly: Java EE 7 JSON (JSR 353)
 
 [source,java]
 .+CreateJson.java+
@@ -234,7 +234,7 @@ writer.write(jsonObject);
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 Concurrency
+== WildFly: Java EE 7 Concurrency (JSR 236)
 
 [source,java]
 .+RunMyTask.java+
@@ -267,7 +267,7 @@ executor.submit(new MyTask()); <3>
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 JAX-RS
+== WildFly: Java EE 7 JAX-RS (JSr 339)
 
 [source,java]
 .+RunClient.java+
@@ -303,7 +303,7 @@ Person p = target
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 JMS
+== WildFly: Java EE 7 JMS (JSR 343)
 
 [source,java]
 .+SendMessage.java+
@@ -333,6 +333,43 @@ context.createProducer().send(syncQueue, "..."); <4>
 * A `Destination`, a `Queue` in this case, is injected using `@Resource`. Even this annotation can be created using newly introduced `@JMSDestinationDefintion` annotation which would automatically create the destination.* Finally, the message is sent using method chaining. For example, create a producer using `createProducer()` and then calling `send()` method to send a message to a destination.
 * Really simple and clean. This also improves semantic readability of your code.
 ====
+
+[.topic.source]
+== Java Transaction API 1.2 (JSR 907)
+
+* `@Transactional` Transaction boundaries on CDI managed beans
+* `@TransactionScoped` CDI scope for bean instances scoped to the active JTA transaction
+
+
+[NOTE]
+[role="speaker"]
+====
+* A significant change in JTA allows to convert any POJO into a transactional object.
+* The javax.transaction.Transactional annotation provides the application the ability to declaratively control transaction boundaries on CDI managed beans, as well as classes defined as managed beans by the Java EE specification, at both the class and method level where method level annotations override those at the class level.·
+* The javax.transaction.TransactionScoped annotation provides the ability to specify a standard CDI scope to define bean instances whose lifecycle is scoped to the currently active JTA transaction. This annotation has no effect on classes which have non-contextual references such those defined as managed beans by the Java EE specification .
+====
+
+[.topic.source]
+== Contexts and Dependency Injection 1.1 (JSR 346)
+
+* Automatic enablement for beans with scope annotation and EJBs
+* ``beans.xml'' is optional
+* Bean discovery mode
+** `all`: All types
+** `annotated`: Types with bean defining annotation
+** `none`: Disable CDI
+* `@Vetoed` for programmatic disablement of classes
+* Global ordering/priority of interceptors and decorators
+
+[NOTE]
+[role="speaker"]
+====
+* CDI is making the platform lot more cohesive and is becoming a core component model.
+* Also, CDI is now enabled by default in Java EE 7, without the requirement to specify a beans.xml descriptor.·
+* If beans.xml exists with version 1.1, then a new attribute bean-discovery-mode can be specified on the top level <beans>. “all” value can be specified to enable injection all beans in the archive. “annotated” value is used to inject beans with a bean defining annotation – such as one with a CDI scope. And “none” can be used to completely disable CDI.
+* A new annotation @Vetoed is added to enable programmatic disablement of classes. This functionality was available in other frameworks and now in the standards.
+====
+
 
 [.topic.source]
 == WildFly: Java EE 7 IDEs
@@ -538,8 +575,8 @@ image:openshift-logo.png[] image:cloudbees-logo.png[]
 [.incremental]
 * *Standalone*: single independent instance
 * *Managed domain*: manage multiple WildFly instances from a single control point
-** High Availability through fail-over: removes single point of failure
-** High Availability through load-balancing: timely response to client, even with high-volume requests
+** HA from fail-over: removes single point of failure
+** HA from load-balancing: timely response to client, even with high-volume requests
 
 [NOTE]
 [role="speaker"]
@@ -572,6 +609,29 @@ image::managed-domain.png[]
 * A server group is set of server instances that will be managed and configured as one. In a managed domain each application server instance is a member of a server group. DC and HC ensures that all servers in a server group have a consistent configuration.
 * Server is an actual server instance. It runs in a separate JVM process from HC and is started by HC. User cannot launch this process from command line.
 * It's important to understand that the choice between a managed domain and standalone servers is all about how your servers are managed, not what capabilities they have to service end user requests. This distinction is particularly important when it comes to high availability clusters. It's important to understand that HA functionality is orthogonal to running standalone servers or a managed domain. That is, a group of standalone servers can be configured to form an HA cluster.
+====
+
+[.topic.source]
+== Clustering Strategies
+
+* Uses UDP for communication, can be configured for unicast TCP
+* `mod_cluster`, `mod_jk`, `mod_proxy`, ISAPI or NSAPI connectors are available
+* Advantages of `mod_cluster`
+** App server performs LB factor calculations
+** Server-side LB factors are communicated to httpd
+** Dynamic configuration of HTTPD proxies
+** Dynamically route requests to a node based upon context availability
+
+[NOTE]
+[role="speaker"]
+====
+* By default, cluster nodes monitor each other's status using the UDP protocol. Some networks only allow TCP to be used. In this situation, you can add the TCPPING protocol stack to your configuration and use it as the default mechanism. These configuration options are available in the command-line based Management CLI. The mod_cluster subsystem also uses UDP communication by default, and you can choose to use TCP here as well.
+* Advantages of mod_cluster
+** mod_cluster Management Protocol (MCMP) is an additional connection between the application server nodes and httpd, used by application server nodes to transmit server-side load balance factors and lifecycle events back to the web container via a custom set of HTTP methods.
+** Dynamic configuration of HTTPD proxies allows JBoss EAP 6 to adapt on the fly, with no additional configuration.
+** The application servers perform the load-balancing factor calculations. This makes load balancing metrics more accurate than other connectors.
+* mod_cluster gives fine-grained application lifecycle control. Each server forwards any web application context lifecycle events to the proxy, informing it to start or stop routing requests for a given context in the server. This prevents end users from seeing 404 errors due to unavailable resources.
+** AJP, HTTP or HTTPS with mod_cluster and Apache HTTP can be used.
 ====
 
 [.topic.source]
@@ -655,7 +715,7 @@ image::devnation_summitpromo.png[]
 
 NOTE: WildFly - http://wildfly.org, http://github.com/wildfly, @WildFlyAS
 
-NOTE: JBoss EAP 6.2 - http://redhat.com/jboss
+NOTE: JBoss EAP 6.2 - http://www.jboss.org/products/eap
 
 NOTE: Java EE 7 samples - https://github.com/javaee-samples/javaee7-samples
 
