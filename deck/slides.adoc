@@ -63,7 +63,31 @@ Highhlight:
 -- zeroturnaround.com
 
 == !
+image::zeroturnaround-2009.png[]
 
+[NOTE]
+[role="speaker"]
+====
+* Most widely used application in open source + commercially supported
+  (2009)
+====
+
+== !
+image::zeroturnaround-2010.png[]
+
+== !
+image::zeroturnaround-2011.png[]
+
+== !
+image::zeroturnaround-2012.png[]
+
+== !
+image::zeroturnaround-2013.png[]
+
+== !
+image::zeroturnaround-2014.png[width=262, height=400]
+
+== !
 [.middle]
 image::wildfly.png[]
 
@@ -704,11 +728,6 @@ NOTE: http://zeroturnaround.com/rebellabs/abandon-fish-migrating-from-glassfish-
 
 _Now available!_
 ====
-
-[.topic.source]
-== Open source polyglot conference
-
-image::devnation_summitpromo.png[]
 
 [.topic.source]
 == References
