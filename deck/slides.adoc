@@ -298,7 +298,6 @@ executor.submit(new MyTask()); <3>
 ----
 Client client = ClientBuilder.newClient(); <1>
 WebTarget target = client.target("..."); <2>
-target.register(Person.class);
 Person p = target
              .path("{id}") <3>
              .resolveTemplate("id", "1")
