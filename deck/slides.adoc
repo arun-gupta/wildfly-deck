@@ -291,7 +291,7 @@ executor.submit(new MyTask()); <3>
 ====
 
 [.topic.source]
-== WildFly: Java EE 7 JAX-RS (JSr 339)
+== WildFly: Java EE 7 JAX-RS (JSR 339)
 
 [source,java]
 .+RunClient.java+
